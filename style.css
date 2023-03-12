@@ -13,26 +13,29 @@ body {
 
 #playing-area {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
-.row {
+.column {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.row:first-child > .spot {
-  border-top: 2px solid black;
+.column:first-child > .spot {
+  border-left: 2px solid rgb(31, 2, 117);
 }
-.row:last-child > .spot {
-  border-bottom: 2px solid black;
-}
-
-.row > .spot:first-child {
-  border-left: 2px solid black;
+.column:last-child > .spot {
+  border-right: 2px solid rgb(31, 2, 117);
 }
 
-.row > .spot:last-child {
-  border-right: 2px solid black;
+.column > .spot:nth-child(2) {
+  border-top: 2px solid rgb(31, 2, 117);
+}
+
+.column > .spot:last-child {
+  border-bottom: 2px solid rgb(31, 2, 117);
 }
 
 .spot {
@@ -44,12 +47,24 @@ body {
   background-color: #0279bb;
 }
 
+.drop-area {
+  margin: 5px 0;
+  height: 20px;
+  width: 50px;
+  background-color: #bdebf77f;
+  border: 2px solid #eeea003e;
+  border-radius: 30%;
+  display: flex;
+  flex-direction: center;
+  align-items: center;
+}
+
 .empty,
 .red,
 .yellow {
   height: 45px;
   width: 45px;
-  border: 2px solid black;
+  border: 2px solid rgb(31, 2, 117);
   border-radius: 50%;
 }
 
