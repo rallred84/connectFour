@@ -1,5 +1,6 @@
 let rows = 6;
 let columns = 7;
+let connectNum = 4;
 
 let playNum = 1;
 
@@ -16,6 +17,109 @@ const gameState = {
   players: {
     'Player 1': 'red',
     Computer: 'yellow',
+  },
+  checkForWin: function () {
+    let isWinner;
+    //Loop through every** column
+    //** Subtracted connectNum from array length to prevent an error that would occur when trying to reference values from an array that doesnt exist. This will work for all comparisons except downward comparisons, which is handled in its own loop
+    for (let i = 0; i <= board.length - connectNum; i++) {
+      //Then loop through every played spot
+      for (let j = 0; j < board[i].length; j++) {
+        //1)Up and to right
+        let compareArray = [];
+        let colIdx = i;
+        let rowIdx = j;
+        //For each comparison, will do a loop equal to the number of values needed for a win (connectNum), and push those values to a new array. If all of those array values are then equal, we have a winner!
+        for (let k = 0; k < connectNum; k++) {
+          if (board[colIdx][rowIdx]) {
+            compareArray.push(board[colIdx][rowIdx]);
+          }
+          colIdx++;
+          rowIdx++;
+        }
+        if (compareArray.length === connectNum) {
+          isWinner = true;
+          for (color of compareArray) {
+            if (color !== compareArray[0]) {
+              isWinner = false;
+            }
+          }
+          if (isWinner) {
+            return isWinner;
+          }
+        }
+        //2)To right
+        compareArray = [];
+        colIdx = i;
+        rowIdx = j;
+        for (let k = 0; k < connectNum; k++) {
+          if (board[colIdx][rowIdx]) {
+            compareArray.push(board[colIdx][rowIdx]);
+          }
+          colIdx++;
+        }
+        if (compareArray.length === connectNum) {
+          isWinner = true;
+          for (color of compareArray) {
+            if (color !== compareArray[0]) {
+              isWinner = false;
+            }
+          }
+          if (isWinner) {
+            return isWinner;
+          }
+        }
+        //3)Down and to right
+        compareArray = [];
+        colIdx = i;
+        rowIdx = j;
+        for (let k = 0; k < connectNum; k++) {
+          if (board[colIdx][rowIdx]) {
+            compareArray.push(board[colIdx][rowIdx]);
+          }
+          colIdx++;
+          rowIdx--;
+        }
+        if (compareArray.length === connectNum) {
+          isWinner = true;
+          for (color of compareArray) {
+            if (color !== compareArray[0]) {
+              isWinner = false;
+            }
+          }
+          if (isWinner) {
+            return isWinner;
+          }
+        }
+      }
+    }
+    //4)Down
+
+    //Needed to create a separate loop for comparing down, since the other loop didnt grab values from the final (connectNum) columns
+    for (let i = 0; i < board.length; i++) {
+      for (let j = 0; j < board[i].length; j++) {
+        compareArray = [];
+        colIdx = i;
+        rowIdx = j;
+        for (let k = 0; k < connectNum; k++) {
+          if (board[colIdx][rowIdx]) {
+            compareArray.push(board[colIdx][rowIdx]);
+          }
+          rowIdx--;
+        }
+        if (compareArray.length === connectNum) {
+          isWinner = true;
+          for (color of compareArray) {
+            if (color !== compareArray[0]) {
+              isWinner = false;
+            }
+          }
+          if (isWinner) {
+            return isWinner;
+          }
+        }
+      }
+    }
   },
 };
 
@@ -69,4 +173,7 @@ function dropToken(i) {
   let rowIdx = board[i].length - 1;
   document.querySelector(`#col${i}row${rowIdx}`).className = color;
   playNum++;
+  if (gameState.checkForWin()) {
+    console.log('winner!');
+  }
 }
